@@ -10,22 +10,22 @@ using AlquilerCanchas.Models;
 
 namespace AlquilerCanchas.Controllers
 {
-    public class BarriosController : Controller
+    public class ClubsController : Controller
     {
         private readonly AlquilerCanchasDbContext _context;
 
-        public BarriosController(AlquilerCanchasDbContext context)
+        public ClubsController(AlquilerCanchasDbContext context)
         {
             _context = context;
         }
 
-        // GET: Barrios
+        // GET: Clubs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Barrio.ToListAsync());
+            return View(await _context.Club.ToListAsync());
         }
 
-        // GET: Barrios/Details/5
+        // GET: Clubs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace AlquilerCanchas.Controllers
                 return NotFound();
             }
 
-            var barrio = await _context.Barrio
+            var club = await _context.Club
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (barrio == null)
+            if (club == null)
             {
                 return NotFound();
             }
 
-            return View(barrio);
+            return View(club);
         }
 
-        // GET: Barrios/Create
+        // GET: Clubs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Barrios/Create
+        // POST: Clubs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion")] Barrio barrio)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Direccion")] Club club)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(barrio);
+                _context.Add(club);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(barrio);
+            return View(club);
         }
 
-        // GET: Barrios/Edit/5
+        // GET: Clubs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace AlquilerCanchas.Controllers
                 return NotFound();
             }
 
-            var barrio = await _context.Barrio.FindAsync(id);
-            if (barrio == null)
+            var club = await _context.Club.FindAsync(id);
+            if (club == null)
             {
                 return NotFound();
             }
-            return View(barrio);
+            return View(club);
         }
 
-        // POST: Barrios/Edit/5
+        // POST: Clubs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion")] Barrio barrio)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Direccion")] Club club)
         {
-            if (id != barrio.Id)
+            if (id != club.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace AlquilerCanchas.Controllers
             {
                 try
                 {
-                    _context.Update(barrio);
+                    _context.Update(club);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BarrioExists(barrio.Id))
+                    if (!ClubExists(club.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace AlquilerCanchas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(barrio);
+            return View(club);
         }
 
-        // GET: Barrios/Delete/5
+        // GET: Clubs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace AlquilerCanchas.Controllers
                 return NotFound();
             }
 
-            var barrio = await _context.Barrio
+            var club = await _context.Club
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (barrio == null)
+            if (club == null)
             {
                 return NotFound();
             }
 
-            return View(barrio);
+            return View(club);
         }
 
-        // POST: Barrios/Delete/5
+        // POST: Clubs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var barrio = await _context.Barrio.FindAsync(id);
-            _context.Barrio.Remove(barrio);
+            var club = await _context.Club.FindAsync(id);
+            _context.Club.Remove(club);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BarrioExists(int id)
+        private bool ClubExists(int id)
         {
-            return _context.Barrio.Any(e => e.Id == id);
+            return _context.Club.Any(e => e.Id == id);
         }
     }
 }

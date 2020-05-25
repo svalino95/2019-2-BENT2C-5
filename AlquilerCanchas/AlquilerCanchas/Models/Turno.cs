@@ -10,7 +10,7 @@ namespace AlquilerCanchas.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo requerido")]
-        [Display(Name = "Descripcion")]
+        [Display(Name = "Horario")]
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "Campo requerido")]

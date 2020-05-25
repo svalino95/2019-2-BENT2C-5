@@ -7,7 +7,7 @@ namespace AlquilerCanchas.Models
 {
     public class Usuario
     {
-
+        [Display(Name = "ID del Usuario")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo requerido")]

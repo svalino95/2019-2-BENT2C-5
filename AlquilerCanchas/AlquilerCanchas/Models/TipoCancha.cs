@@ -8,7 +8,8 @@ namespace AlquilerCanchas.Models
     {
 
         public int Id { get; set; }
-        [Display(Name = "Descripcion")]
+
+        [Display(Name = "Tipo de Cancha")]
         public string Descripcion { get; set; }
 
         [Display(Name = "Listado de canchas")]

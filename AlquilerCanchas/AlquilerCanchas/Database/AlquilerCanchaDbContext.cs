@@ -15,7 +15,7 @@ namespace AlquilerCanchas.Database
         {
         }
 
-        public DbSet<AlquilerCanchas.Models.Barrio> Barrio { get; set; }
+        public DbSet<AlquilerCanchas.Models.Club> Club { get; set; }
 
         public DbSet<AlquilerCanchas.Models.Reserva> Reserva { get; set; }
 

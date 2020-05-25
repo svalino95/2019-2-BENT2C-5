@@ -38,14 +38,18 @@ namespace AlquilerCanchas.Controllers
         public void Seed()
         {
 
-            var b1 = new Barrio
+
+
+            
+            var b1 = new Club
 
             {
                 Id = 1,
-                Descripcion = "Martelli",
+                Nombre = "Martelli",
                 Canchas = new List<Cancha>()
 
             };
+            
             var Tipo11 = new TipoCancha
             {
                Descripcion = "11"

@@ -22,7 +22,7 @@ namespace AlquilerCanchas.Controllers
         // GET: Canchas
         public async Task<IActionResult> Index()
         {
-            var alquilerCanchasDbContext = _context.Cancha.Include(c => c.Barrio).Include(c => c.TipoCancha);
+            var alquilerCanchasDbContext = _context.Cancha.Include(c => c.Club).Include(c => c.TipoCancha);
             return View(await alquilerCanchasDbContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace AlquilerCanchas.Controllers
             }
 
             var cancha = await _context.Cancha
-                .Include(c => c.Barrio)
+                .Include(c => c.Club)
                 .Include(c => c.TipoCancha)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cancha == null)
@@ -49,8 +49,8 @@ namespace AlquilerCanchas.Controllers
         // GET: Canchas/Create
         public IActionResult Create()
         {
-            ViewData["BarrioId"] = new SelectList(_context.Barrio, "Id", "Descripcion");
-            ViewData["TipoCanchaId"] = new SelectList(_context.Set<TipoCancha>(), "Id", "Descripcion");
+            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "Nombre");
+            ViewData["TipoCanchaId"] = new SelectList(_context.TipoCancha, "Id", "Descripcion");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace AlquilerCanchas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,TipoCanchaId,Direccion,BarrioId")] Cancha cancha)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,TipoCanchaId,Precio,ClubId")] Cancha cancha)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +67,8 @@ namespace AlquilerCanchas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BarrioId"] = new SelectList(_context.Barrio, "Id", "Id", cancha.BarrioId);
-            ViewData["TipoCanchaId"] = new SelectList(_context.Set<TipoCancha>(), "Id", "Id", cancha.TipoCanchaId);
+            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "Nombre", cancha.ClubId);
+            ViewData["TipoCanchaId"] = new SelectList(_context.TipoCancha, "Id", "Descripcion", cancha.TipoCanchaId);
             return View(cancha);
         }
 
@@ -85,8 +85,8 @@ namespace AlquilerCanchas.Controllers
             {
                 return NotFound();
             }
-            ViewData["BarrioId"] = new SelectList(_context.Barrio, "Id", "Id", cancha.BarrioId);
-            ViewData["TipoCanchaId"] = new SelectList(_context.Set<TipoCancha>(), "Id", "Id", cancha.TipoCanchaId);
+            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "Nombre", cancha.ClubId);
+            ViewData["TipoCanchaId"] = new SelectList(_context.TipoCancha, "Id", "Descripcion", cancha.TipoCanchaId);
             return View(cancha);
         }
 
@@ -95,7 +95,7 @@ namespace AlquilerCanchas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,TipoCanchaId,Direccion,BarrioId")] Cancha cancha)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,TipoCanchaId,Precio,ClubId")] Cancha cancha)
         {
             if (id != cancha.Id)
             {
@@ -122,8 +122,8 @@ namespace AlquilerCanchas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BarrioId"] = new SelectList(_context.Barrio, "Id", "Id", cancha.BarrioId);
-            ViewData["TipoCanchaId"] = new SelectList(_context.Set<TipoCancha>(), "Id", "Id", cancha.TipoCanchaId);
+            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "Nombre", cancha.ClubId);
+            ViewData["TipoCanchaId"] = new SelectList(_context.TipoCancha, "Id", "Descripcion", cancha.TipoCanchaId);
             return View(cancha);
         }
 
@@ -136,7 +136,7 @@ namespace AlquilerCanchas.Controllers
             }
 
             var cancha = await _context.Cancha
-                .Include(c => c.Barrio)
+                .Include(c => c.Club)
                 .Include(c => c.TipoCancha)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cancha == null)

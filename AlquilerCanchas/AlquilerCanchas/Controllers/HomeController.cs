@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using AlquilerCanchas.Models;
+
+namespace AlquilerCanchas.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        public IActionResult Index()
+        {
+            Seed();
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public void Seed()
+        {
+
+            var b1 = new Barrio
+
+            {
+                Id = 1,
+                Descripcion = "Martelli",
+                Canchas = new List<Cancha>()
+
+            };
+            var Tipo11 = new TipoCancha
+            {
+               Descripcion = "11"
+               
+            };
+            var Tipo8 = new TipoCancha
+            {
+                Descripcion = "8"
+                
+            };
+
+            
+                
+        }
+
+    }
+}

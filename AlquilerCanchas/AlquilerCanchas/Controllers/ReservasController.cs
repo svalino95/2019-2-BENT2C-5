@@ -22,6 +22,8 @@ namespace AlquilerCanchas.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
+
+
             var alquilerCanchasDbContext = _context.Reserva.Include(r => r.Cancha).Include(r => r.Turno).Include(r => r.Usuario);
             return View(await alquilerCanchasDbContext.ToListAsync());
         }

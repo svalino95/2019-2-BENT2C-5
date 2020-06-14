@@ -38,6 +38,7 @@ namespace AlquilerCanchas
 
             services.AddHttpContextAccessor();
 
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
@@ -62,6 +63,8 @@ namespace AlquilerCanchas
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

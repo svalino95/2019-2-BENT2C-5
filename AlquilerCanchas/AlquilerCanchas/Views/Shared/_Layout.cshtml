@@ -3,75 +3,94 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Alquiler de Canchas</title>
+    <title>@ViewData["Title"] - Alquila-T</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
-   
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Alquiler de Canchas</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-light box-shadow mb-3">
+            <div class="container border-danger">
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Alquila-T</a>
+                <button class="navbar-toggler text-center text-light" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="navbar navbar-default navbar-fixed-top">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="Create">Crear Reserva</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Turnos" asp-action="Create">Crear Turno?</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Canchas" asp-action="Create">Crear Canchas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="TipoCanchas" asp-action="Create">Crear TiposCanchas</a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clubs" asp-action="Create">Crear Club</a>
-                        </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            @if (!User.IsInRole(nameof(Rol.Administrador)))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="Create">Reservar</a>
+                                </li>
+
+
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="Create">Reservar</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="TipoCanchas" asp-action="Create">Tipo de Canchas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="TurnoCanchas" asp-action="Create">Agregar Turnos</a>
+                                </li>
+                                
+
+                            }
+
+
+
+
+                        }
+
+
                     </ul>
                 </div>
-            <div>
-                <ul class="nav navbar-nav navbar-right">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-controller="Usuarios" asp-action="Edit">Editar</a></li>
-                                <li>
-                                    <!-- Acá utilizamos un a fuera del formulario para hacer submit del mismo. -->
-                                    <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
-                                    <form id="logoutForm" method="post" asp-controller="Usuarios" asp-action="Logout"></form>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li><a asp-controller="Usuarios" asp-action="Login">Login</a></li>
+                <div class="navbar navbar-default navbar-fixed-top">
+                    <ul class="navbar-nav flex-grow-1 navbar-right">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
 
-                        <li></li>
-                        <li></li>
 
-                        <li><a asp-controller="Usuarios" asp-action="Signup">Signup</a></li>
-                    }
-                </ul>
-            </div>
+                                    <li class="nav-item"><a asp-controller="Usuarios" asp-action="Edit">Editar</a></li>
+                                    <li class="nav-item">
+                                        <!-- Acá utilizamos un a fuera del formulario para hacer submit del mismo. -->
+                                        <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                                        <form id="logoutForm" method="post" asp-controller="Usuarios" asp-action="Logout"></form>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link text-light" asp-controller="Usuarios" asp-action="Login"><span class="icon-user"></span>Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-light" asp-controller="Usuarios" asp-action="Signup"><span class="icon-puzzle"></span>Sign up</a></li>
+                        }
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
@@ -83,12 +102,15 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Alquiler de Canchas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Alquiler de Canchas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="vendor/jquery/jquery.min.js"></script> 
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

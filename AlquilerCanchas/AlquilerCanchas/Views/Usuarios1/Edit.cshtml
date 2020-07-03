@@ -14,20 +14,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
+                <label asp-for="Rol" class="control-label"></label>
+                <select asp-for="Rol" class="form-control"></select>
+                <span asp-validation-for="Rol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
                 <input asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Rol" class="control-label"></label>
-                <select asp-for="Rol" asp-items="Html.GetEnumSelectList<Rol>()">
-                </select>
-                <span asp-validation-for="Rol" class="text-danger" />
-            </div>
-
-            <div class="form-group">
                 <label asp-for="Contrasenia" class="control-label"></label>
-                <input name="password" class="form-control" type="password" />
+                <input asp-for="Contrasenia" class="form-control" />
                 <span asp-validation-for="Contrasenia" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,9 +49,13 @@
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="FechaUltimoAcceso" class="control-label"></label>
+                <input asp-for="FechaUltimoAcceso" class="form-control" />
+                <span asp-validation-for="FechaUltimoAcceso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-
         </form>
     </div>
 </div>

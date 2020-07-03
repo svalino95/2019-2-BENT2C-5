@@ -32,22 +32,41 @@ namespace AlquilerCanchas.Controllers
         public async Task<IActionResult> Login([Bind("Id,Email,Contrasenia")] string email, string password)
         {
             string returnUrl = TempData["returnUrl"] as string;
+
             Usuario usuario = _context.Usuario.FirstOrDefault(usr => usr.Email == email);
 
             if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
             {
                 byte[] data = System.Text.Encoding.ASCII.GetBytes(password);
+
+                // Se realiza HASH a la contraseña
+
                 data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
 
+    
+                //Falta validar que el email exista, sino lanza error
                 if (usuario.Contrasenia.SequenceEqual(data))
                 {
                     ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                     identity.AddClaim(new Claim(ClaimTypes.Name, email));
+
+                    //Autoriza los roles
+
+                    identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Rol.ToString()));
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
+
                     ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+
+                    // En este paso se hace para el login del usuario al sistema
+
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    // Guardo la fecha de último acceso que es ahora.
 
                     usuario.FechaUltimoAcceso = DateTime.Now;
                     await _context.SaveChangesAsync();
+
+                    TempData["JustLoggedIn"] = true;
 
                     if (!string.IsNullOrWhiteSpace(returnUrl))
                         return Redirect(returnUrl);
@@ -76,12 +95,20 @@ namespace AlquilerCanchas.Controllers
             return View();
         }
 
+
+        // GET: Usuarios/Create
+        public IActionResult Create()
+        {
+            ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Rol)), "Id");
+            return View();
+        }
+
         // POST: Usuarios/SignUp
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp([Bind("Id,Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono")] Usuario usuario, string password)
+        public async Task<IActionResult> SignUp([Bind("Id,Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono,Rol")] Usuario usuario, string password)
         {
             if (!string.IsNullOrWhiteSpace(password))
             {
@@ -101,6 +128,7 @@ namespace AlquilerCanchas.Controllers
             {
                 ModelState.AddModelError("Contrasenia", "La contraseña no puede estar vacía");
             }
+            ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Rol)), "Id");
 
             return View(usuario);
         }
@@ -126,7 +154,7 @@ namespace AlquilerCanchas.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono")] Usuario usuario, string password)
+        public async Task<IActionResult> Edit(int id, [Bind("Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono,Rol")] Usuario usuario, string password)
         {
             if (id != usuario.Id)
             {

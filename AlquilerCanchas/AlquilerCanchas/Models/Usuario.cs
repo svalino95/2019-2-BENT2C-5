@@ -10,6 +10,10 @@ namespace AlquilerCanchas.Models
         [Display(Name = "ID del Usuario")]
         public int Id { get; set; }
 
+        [EnumDataType(typeof(Rol))]
+        [Display(Name = "Rol")]
+        public Rol Rol { get; set; }
+
         [Required(ErrorMessage = "Campo requerido")]
         [MaxLength(100, ErrorMessage = "La longitud máxima es de 20 caracteres")]
         [Display(Name = "Nombre de Usuario")]
@@ -32,7 +36,7 @@ namespace AlquilerCanchas.Models
         [Display(Name = "DNI")]
         public string Dni { get; set; }
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Campo requerido")]
+       
         [Display(Name = "Fecha de Nacimiento")]
         public DateTime FechaDeNacimineto { get; set; }
 

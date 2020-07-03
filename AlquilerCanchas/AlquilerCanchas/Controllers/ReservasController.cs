@@ -66,7 +66,13 @@ namespace AlquilerCanchas.Controllers
         public async Task<IActionResult> Create([Bind("Id,Comentarios,CanchaId,UsuarioId,FechaReserva,Monto,TurnoId")] Reserva reserva)
         {
             if (ModelState.IsValid)
+
+
+
+
+
             {
+
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

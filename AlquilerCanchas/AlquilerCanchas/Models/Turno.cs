@@ -15,13 +15,13 @@ namespace AlquilerCanchas.Models
 
         [Required(ErrorMessage = "Campo requerido")]
         [Display(Name = "Hora de inicio")]
-        public TimeSpan horaInicio { get; set; }
+        public int horaInicio { get; set; }
 
         [Required(ErrorMessage = "Campo requerido")]
         [Display(Name = "Hora de finalalización")]
 
         
-        public TimeSpan horaFin { get; set; }
+        public int horaFin { get; set; }
 
         [Display(Name = "Listado de Turnos de Canchas")]
         public ICollection<TurnoCancha> Canchas { get; set; }

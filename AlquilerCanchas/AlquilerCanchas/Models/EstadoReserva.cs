@@ -13,6 +13,6 @@ namespace AlquilerCanchas.Models
         public string Descripcion { get; set; }
 
         [Display(Name = "Listado de Canchas")]
-        public ICollection<Cancha> Canchas { get; set; }
+        public ICollection<Reserva> Reservas { get; set; }
     }
 }

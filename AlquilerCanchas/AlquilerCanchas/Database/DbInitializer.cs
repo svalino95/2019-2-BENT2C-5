@@ -19,7 +19,7 @@ namespace AlquilerCanchas.Database
 
             Usuario usuario1 = new Usuario()
             {
-                
+
                 Rol = Rol.Administrador,
                 Username = "svalino",
                 Contrasenia = data,
@@ -67,20 +67,33 @@ namespace AlquilerCanchas.Database
             };
             context.TipoCancha.Add(Tipo8);
 
-
-            var Cancha1 = new Cancha()
+            var estadoPendiente = new EstadoReserva()
             {
-               Nombre = "C1",
-               TipoCanchaId = 1,
-               Precio = 900,
+
+                Descripcion = "Pendiente"
             };
-            context.Cancha.Add(Cancha1);
+            context.EstadoReserva.Add(estadoPendiente);
+
+
+            var estadoAceptado = new EstadoReserva()
+            {
+
+                Descripcion = "Aceptado"
+            };
+            context.EstadoReserva.Add(estadoAceptado);
+            var estadoCancelado = new EstadoReserva()
+            {
+
+                Descripcion = "Cancelado"
+            };
+            context.EstadoReserva.Add(estadoCancelado);
+
 
             var Turno1 = new Turno()
             {
-               Descripcion = "20 a 21",
-               horaFin = 20,
-               horaInicio = 21,
+                Descripcion = "20 a 21",
+                horaFin = 20,
+                horaInicio = 21,
             };
             context.Turno.Add(Turno1);
 
@@ -91,48 +104,18 @@ namespace AlquilerCanchas.Database
                 horaInicio = 23,
             };
             context.Turno.Add(Turno2);
-            /*         var autor3 = new Autor()
-                     {
-                         Nombre = "Andrea",
-                         Apellido = "González"
-                     };
-                     context.Autores.Add(autor3);
 
-                     var editorial = new Editorial() { Nombre = "Planeta" };
-                     context.Editoriales.Add(editorial);
+            var Cancha1 = new Cancha()
 
-                     var libro1 = new Libro()
-                     {
-                         Titulo = "Un libro de aventuras",
-                         Editorial = editorial,
-                         Genero = aventura,
-                         AnioPublicado = 1997,
-                         Stock = 20
-                     };
-                     context.Libros.Add(libro1);
+            {
 
-                     var libro2 = new Libro()
-                     {
-                         Titulo = "Un libro de terror",
-                         Editorial = editorial,
-                         Genero = terror,
-                         AnioPublicado = 2003,
-                         Stock = 10
-                     };
-                     context.Libros.Add(libro1);
+                Nombre = "Argentina",
+                Precio = 1200,
+                TipoCanchaId = 1,
+                ClubId = 1
 
-                     var libro3 = new Libro()
-                     {
-                         Titulo = "Un libro de Sci-fi",
-                         Editorial = editorial,
-                         Genero = scifi,
-                         AnioPublicado = 2015,
-                         Stock = 3
-                     };
-                     context.Libros.Add(libro1);
-
-                     context.LibrosAutores.Add(new LibroAutor() { Autor = autor1, Libro = libro1 }); */
-
+            };
+            context.Cancha.Add(Cancha1); 
 
 
             context.SaveChanges();

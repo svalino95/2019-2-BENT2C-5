@@ -28,5 +28,7 @@ namespace AlquilerCanchas.Database
         public DbSet<AlquilerCanchas.Models.TipoCancha> TipoCancha { get; set; }
 
         public DbSet<AlquilerCanchas.Models.TurnoCancha> TurnoCancha { get; set; }
+
+        public DbSet<AlquilerCanchas.Models.EstadoReserva> EstadoReserva { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AlquilerCanchas.Database;
 using AlquilerCanchas.Models;
+using System.Security.Claims;
 
 namespace AlquilerCanchas.Controllers
 {
@@ -22,9 +23,7 @@ namespace AlquilerCanchas.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-
-
-            var alquilerCanchasDbContext = _context.Reserva.Include(r => r.Cancha).Include(r => r.Turno).Include(r => r.Usuario);
+            var alquilerCanchasDbContext = _context.Reserva.Include(r => r.Cancha).Include(r => r.Estado).Include(r => r.Turno).Include(r => r.Usuario);
             return View(await alquilerCanchasDbContext.ToListAsync());
         }
 
@@ -38,6 +37,7 @@ namespace AlquilerCanchas.Controllers
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cancha)
+                .Include(r => r.Estado)
                 .Include(r => r.Turno)
                 .Include(r => r.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -52,10 +52,12 @@ namespace AlquilerCanchas.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewData["CanchaId"] = new SelectList(_context.Set<Cancha>(), "Id", "Nombre");
+            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre");
+            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion");
             ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion");
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Username");
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username");
             return View();
+
         }
 
         // POST: Reservas/Create
@@ -63,24 +65,24 @@ namespace AlquilerCanchas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Comentarios,CanchaId,UsuarioId,FechaReserva,Monto,TurnoId")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Monto,Comentarios,TurnoId")] Reserva reserva)
         {
             if (ModelState.IsValid)
-
-
-
-
-
             {
-
+                reserva.EstadoId = 1;
+                
+                reserva.Monto = 1000;
+                reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ListadoReserva));
             }
-            ViewData["CanchaId"] = new SelectList(_context.Set<Cancha>(), "Id", "Nombre", reserva.CanchaId);
+            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
+            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
             ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Username", reserva.UsuarioId);
-            return View(reserva);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
+      //      return View(reserva);
+            return RedirectToAction(nameof(ListadoReserva));
         }
 
         // GET: Reservas/Edit/5
@@ -96,10 +98,13 @@ namespace AlquilerCanchas.Controllers
             {
                 return NotFound();
             }
-            ViewData["CanchaId"] = new SelectList(_context.Set<Cancha>(), "Id", "Nombre", reserva.CanchaId);
+            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
+            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
             ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Username", reserva.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Dni", reserva.UsuarioId);
             return View(reserva);
+
+            
         }
 
         // POST: Reservas/Edit/5
@@ -107,7 +112,7 @@ namespace AlquilerCanchas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Comentarios,CanchaId,UsuarioId,FechaReserva,Monto,TurnoId")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Monto,Comentarios,TurnoId")] Reserva reserva)
         {
             if (id != reserva.Id)
             {
@@ -134,9 +139,10 @@ namespace AlquilerCanchas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CanchaId"] = new SelectList(_context.Set<Cancha>(), "Id", "Nombre", reserva.CanchaId);
+            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
+            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
             ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Username", reserva.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
             return View(reserva);
         }
 
@@ -150,6 +156,7 @@ namespace AlquilerCanchas.Controllers
 
             var reserva = await _context.Reserva
                 .Include(r => r.Cancha)
+                .Include(r => r.Estado)
                 .Include(r => r.Turno)
                 .Include(r => r.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -170,6 +177,26 @@ namespace AlquilerCanchas.Controllers
             _context.Reserva.Remove(reserva);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpGet]
+        
+        public IActionResult ListadoReserva()
+        {
+            int UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var reservas = _context
+                .Reserva
+                .Include(r => r.Cancha)
+                .Include(r => r.Estado)
+                .Include(r => r.Turno)
+                .Include(r => r.Usuario)
+                .Include(r => r.Cancha.TipoCancha)
+                 .Where(reserva => reserva.UsuarioId == UsuarioId)
+                .ToList();
+
+            return View(reservas);
         }
 
         private bool ReservaExists(int id)

@@ -12,16 +12,16 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Comentarios)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Comentarios)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Cancha)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cancha.Id)
+            @Html.DisplayFor(model => model.Cancha.Nombre)
+        </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Estado.Id)
         </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Usuario)
@@ -42,10 +42,16 @@
             @Html.DisplayFor(model => model.Monto)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Comentarios)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Comentarios)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Turno)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Turno.Id)
+            @Html.DisplayFor(model => model.Turno.Descripcion)
         </dd class>
     </dl>
     

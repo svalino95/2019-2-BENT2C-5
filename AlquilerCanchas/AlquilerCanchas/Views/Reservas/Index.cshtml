@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Comentarios)
+                @Html.DisplayNameFor(model => model.Cancha)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cancha)
+                @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Usuario)
@@ -28,6 +28,9 @@
                 @Html.DisplayNameFor(model => model.Monto)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Comentarios)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Turno)
             </th>
             <th></th>
@@ -37,10 +40,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Comentarios)
+                @Html.DisplayFor(modelItem => item.Cancha.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cancha.Nombre)
+                @Html.DisplayFor(modelItem => item.Estado.Descripcion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Usuario.Username)
@@ -50,6 +53,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Monto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comentarios)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Turno.Descripcion)

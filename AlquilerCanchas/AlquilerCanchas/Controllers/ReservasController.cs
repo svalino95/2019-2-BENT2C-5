@@ -67,22 +67,38 @@ namespace AlquilerCanchas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Monto,Comentarios,TurnoId")] Reserva reserva)
         {
-            if (ModelState.IsValid)
+
+           if (CanchaReservada(reserva))
             {
-                reserva.EstadoId = 1;
-                
-                reserva.Monto = 1000;
-                reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(ListadoReserva));
+                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta película");
             }
-            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
-            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
-            ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
-            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
-      //      return View(reserva);
-            return RedirectToAction(nameof(ListadoReserva));
+            else
+            {
+
+            
+
+                if (ModelState.IsValid)
+
+                {
+                    
+
+                    reserva.EstadoId = 1;
+
+                    reserva.Monto = 1000;
+                   
+                    reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
+                _context.Add(reserva);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(ListadoReserva));
+                }
+                ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
+                ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
+                ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
+                ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
+                
+                //      return View(reserva);
+                return RedirectToAction(nameof(ListadoReserva));
+           }
         }
 
         // GET: Reservas/Edit/5
@@ -202,6 +218,27 @@ namespace AlquilerCanchas.Controllers
         private bool ReservaExists(int id)
         {
             return _context.Reserva.Any(e => e.Id == id);
+        }
+
+        private bool CanchaReservada(Reserva reserva) {
+            bool resFecha = false;
+            bool resHora = false;
+            bool res =false;
+            bool cancha = false;
+
+
+            cancha = _context.Reserva.Any(e => e.CanchaId == reserva.CanchaId);
+            resFecha = _context.Reserva.Any(e => e.FechaReserva == reserva.FechaReserva);
+            resHora = _context.Reserva.Any(e => e.TurnoId == reserva.TurnoId);
+
+            if (resFecha && resHora && cancha) {
+                res = true;
+                return res;
+            }
+           
+
+            return res; 
+            
         }
     }
 }

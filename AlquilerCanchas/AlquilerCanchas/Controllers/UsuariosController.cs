@@ -29,6 +29,7 @@ namespace AlquilerCanchas.Controllers
         }
 
         [HttpPost]
+      
         public async Task<IActionResult> Login([Bind("Id,Email,Contrasenia")] string email, string password)
         {
             string returnUrl = TempData["returnUrl"] as string;
@@ -45,13 +46,15 @@ namespace AlquilerCanchas.Controllers
 
     
                 //Falta validar que el email exista, sino lanza error
-                if (usuario.Contrasenia.SequenceEqual(data))
+               
+                //if (usuario.Contrasenia.SequenceEqual(data))
+                if(usuario != null && usuario.Contrasenia.SequenceEqual(data))
                 {
+
+                    //creacion de identidad del usuario ingresado
                     ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                     identity.AddClaim(new Claim(ClaimTypes.Name, email));
-
                     //Autoriza los roles
-
                     identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Rol.ToString()));
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
 
@@ -64,19 +67,25 @@ namespace AlquilerCanchas.Controllers
                     // Guardo la fecha de último acceso que es ahora.
 
                     usuario.FechaUltimoAcceso = DateTime.Now;
-                    await _context.SaveChangesAsync();
+                     _context.SaveChanges();
 
-                    TempData["JustLoggedIn"] = true;
+                    
 
                     if (!string.IsNullOrWhiteSpace(returnUrl))
+                    {
                         return Redirect(returnUrl);
+                    }
 
-                    return RedirectToAction("Create", "Reservas");
+                    //TempData["JustLoggedIn"] = true;
+                    // return RedirectToAction("Create", "Reservas");
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
 
+            //info incorrecta
             ViewBag.Error = "Usuario o contraseña incorrectos";
             ViewBag.Email = email;
+            
 
             return View();
         }
@@ -121,7 +130,7 @@ namespace AlquilerCanchas.Controllers
                 {
                     _context.Add(usuario);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Create", "Reservas");
+                    return RedirectToAction("Login", "Usuarios");
                 }
             }
             else

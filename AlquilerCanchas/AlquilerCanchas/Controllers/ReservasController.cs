@@ -68,14 +68,13 @@ namespace AlquilerCanchas.Controllers
         public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Monto,Comentarios,TurnoId")] Reserva reserva)
         {
 
-           if (CanchaReservada(reserva))
-            {
-                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta película");
-            }
-            else
-            {
+
 
             
+            CanchaReservada(reserva);
+               
+            
+                   
 
                 if (ModelState.IsValid)
 
@@ -83,7 +82,6 @@ namespace AlquilerCanchas.Controllers
                     
 
                     reserva.EstadoId = 1;
-
                     reserva.Monto = 1000;
                    
                     reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
@@ -96,9 +94,11 @@ namespace AlquilerCanchas.Controllers
                 ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
                 ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
                 
-                //      return View(reserva);
-                return RedirectToAction(nameof(ListadoReserva));
-           }
+                      return View(reserva);
+                    
+
+         //       return RedirectToAction(nameof(ListadoReserva));
+           
         }
 
         // GET: Reservas/Edit/5
@@ -220,10 +220,10 @@ namespace AlquilerCanchas.Controllers
             return _context.Reserva.Any(e => e.Id == id);
         }
 
-        private bool CanchaReservada(Reserva reserva) {
+        private void CanchaReservada(Reserva reserva) {
             bool resFecha = false;
             bool resHora = false;
-            bool res =false;
+            
             bool cancha = false;
 
 
@@ -232,13 +232,18 @@ namespace AlquilerCanchas.Controllers
             resHora = _context.Reserva.Any(e => e.TurnoId == reserva.TurnoId);
 
             if (resFecha && resHora && cancha) {
-                res = true;
-                return res;
-            }
-           
 
-            return res; 
-            
+                ModelState.AddModelError(string.Empty, "El turno se encuentra ocupado");
+
+
+
+
+
+            }
+
+
+
+
         }
     }
 }

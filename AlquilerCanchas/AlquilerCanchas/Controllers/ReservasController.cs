@@ -70,7 +70,8 @@ namespace AlquilerCanchas.Controllers
 
            if (CanchaReservada(reserva))
             {
-                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta película");
+                ModelErrorReservado();
+                
             }
             else
             {
@@ -96,9 +97,12 @@ namespace AlquilerCanchas.Controllers
                 ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
                 ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
                 
-                //      return View(reserva);
+                
                 return RedirectToAction(nameof(ListadoReserva));
-           }
+           
+            }
+            //return View(reserva);
+            return RedirectToAction(nameof(ListadoReserva));
         }
 
         // GET: Reservas/Edit/5
@@ -239,6 +243,10 @@ namespace AlquilerCanchas.Controllers
 
             return res; 
             
+        }
+
+        private void ModelErrorReservado() {
+            ModelState.AddModelError("EstadoId", "NO SE ENCUENTRA DISPONIBLE");
         }
     }
 }

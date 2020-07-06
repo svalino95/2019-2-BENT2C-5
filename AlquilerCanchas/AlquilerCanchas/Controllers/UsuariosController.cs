@@ -45,7 +45,7 @@ namespace AlquilerCanchas.Controllers
                 data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
 
     
-                //Falta validar que el email exista, sino lanza error
+              
                
                 //if (usuario.Contrasenia.SequenceEqual(data))
                 if(usuario != null && usuario.Contrasenia.SequenceEqual(data))

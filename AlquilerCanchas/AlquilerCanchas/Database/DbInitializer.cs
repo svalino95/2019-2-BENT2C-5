@@ -58,12 +58,14 @@ namespace AlquilerCanchas.Database
             var Tipo11 = new TipoCancha()
             {
                 Descripcion = "11",
+                Id = 1,
             };
             context.TipoCancha.Add(Tipo11);
 
             var Tipo8 = new TipoCancha()
             {
                 Descripcion = "8",
+                Id = 2,
             };
             context.TipoCancha.Add(Tipo8);
 

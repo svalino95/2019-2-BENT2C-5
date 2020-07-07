@@ -65,25 +65,27 @@ namespace AlquilerCanchas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Monto,Comentarios,TurnoId")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Comentarios,TurnoId")] Reserva reserva)
         {
 
 
-
+            
             
             CanchaReservada(reserva);
+            ValidaFecha(reserva.FechaReserva);
+
+
+
+            if (ModelState.IsValid)
+
+            {
+
                
-            
+
+                reserva.EstadoId = 1;
+                reserva.Monto = 10;         
                    
 
-                if (ModelState.IsValid)
-
-                {
-                    
-
-                    reserva.EstadoId = 1;
-                    reserva.Monto = 1000;
-                   
                     reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
                 _context.Add(reserva);
                     await _context.SaveChangesAsync();
@@ -220,10 +222,11 @@ namespace AlquilerCanchas.Controllers
             return _context.Reserva.Any(e => e.Id == id);
         }
 
-        private void CanchaReservada(Reserva reserva) {
+        private void CanchaReservada(Reserva reserva)
+        {
             bool resFecha = false;
             bool resHora = false;
-            
+
             bool cancha = false;
 
 
@@ -231,7 +234,8 @@ namespace AlquilerCanchas.Controllers
             resFecha = _context.Reserva.Any(e => e.FechaReserva == reserva.FechaReserva);
             resHora = _context.Reserva.Any(e => e.TurnoId == reserva.TurnoId);
 
-            if (resFecha && resHora && cancha) {
+            if (resFecha && resHora && cancha)
+            {
 
                 ModelState.AddModelError(string.Empty, "El turno se encuentra ocupado");
 
@@ -241,9 +245,20 @@ namespace AlquilerCanchas.Controllers
 
             }
 
+        }
+            private void ValidaFecha(DateTime fechaReci)
+            {
+
+                if (fechaReci <= DateTime.Now)
+                {
+                    ModelState.AddModelError(string.Empty, "La fecha no debe ser menor a hoy");
+                }
+
+
+            }
 
 
 
         }
     }
-}
+

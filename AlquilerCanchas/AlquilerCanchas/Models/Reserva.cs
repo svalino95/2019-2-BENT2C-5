@@ -52,6 +52,7 @@ namespace AlquilerCanchas.Models
         [Display(Name = "Turno")]
         public Turno Turno { get; set; }
 
+    
 
     }
 }

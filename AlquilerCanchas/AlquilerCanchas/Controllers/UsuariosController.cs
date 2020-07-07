@@ -119,6 +119,8 @@ namespace AlquilerCanchas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp([Bind("Id,Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono,Rol")] Usuario usuario, string password)
         {
+            mailExistente(usuario.Email);
+
             if (!string.IsNullOrWhiteSpace(password))
             {
                 byte[] data = System.Text.Encoding.ASCII.GetBytes(password);
@@ -141,6 +143,9 @@ namespace AlquilerCanchas.Controllers
 
             return View(usuario);
         }
+
+
+    
 
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit()
@@ -200,10 +205,25 @@ namespace AlquilerCanchas.Controllers
             }
             return View(usuario);
         }
-
+      
         private bool UsuarioExists(int id)
         {
             return _context.Usuario.Any(e => e.Id == id);
         }
+
+        private void mailExistente(string nuevomail)
+        {
+            if (_context.Usuario.Any(x => Comparar(x.Email, nuevomail)))
+            {
+                ModelState.AddModelError(string.Empty, "mail no disponible");
+            }
+        }
+
+        private static bool Comparar(string a, string b) //comparamos los 2 mail el ingresado y si existe uno 
+        {
+            return a.Where(x => !char.IsWhiteSpace(x)).Select(char.ToUpperInvariant)
+                .SequenceEqual(b.Where(x => !char.IsWhiteSpace(x)).Select(char.ToUpperInvariant));
+        }
+
     }
 }

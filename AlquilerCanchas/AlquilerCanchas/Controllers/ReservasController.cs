@@ -65,27 +65,27 @@ namespace AlquilerCanchas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Monto,Comentarios,TurnoId")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Comentarios,TurnoId")] Reserva reserva)
         {
 
-           if (CanchaReservada(reserva))
-            {
-                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta película");
-            }
-            else
-            {
 
             
+            
+            CanchaReservada(reserva);
+            ValidaFecha(reserva.FechaReserva);
 
-                if (ModelState.IsValid)
 
-                {
-                    
 
-                    reserva.EstadoId = 1;
+            if (ModelState.IsValid)
 
-                    reserva.Monto = 1000;
+            {
+
+               
+
+                reserva.EstadoId = 1;
+                reserva.Monto = 10;         
                    
+
                     reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
                 _context.Add(reserva);
                     await _context.SaveChangesAsync();
@@ -96,9 +96,11 @@ namespace AlquilerCanchas.Controllers
                 ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
                 ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
                 
-                //      return View(reserva);
-                return RedirectToAction(nameof(ListadoReserva));
-           }
+                      return View(reserva);
+                    
+
+         //       return RedirectToAction(nameof(ListadoReserva));
+           
         }
 
         // GET: Reservas/Edit/5
@@ -220,10 +222,11 @@ namespace AlquilerCanchas.Controllers
             return _context.Reserva.Any(e => e.Id == id);
         }
 
-        private bool CanchaReservada(Reserva reserva) {
+        private void CanchaReservada(Reserva reserva)
+        {
             bool resFecha = false;
             bool resHora = false;
-            bool res =false;
+
             bool cancha = false;
 
 
@@ -231,14 +234,31 @@ namespace AlquilerCanchas.Controllers
             resFecha = _context.Reserva.Any(e => e.FechaReserva == reserva.FechaReserva);
             resHora = _context.Reserva.Any(e => e.TurnoId == reserva.TurnoId);
 
-            if (resFecha && resHora && cancha) {
-                res = true;
-                return res;
-            }
-           
+            if (resFecha && resHora && cancha)
+            {
 
-            return res; 
-            
+                ModelState.AddModelError(string.Empty, "El turno se encuentra ocupado");
+
+
+
+
+
+            }
+
+        }
+            private void ValidaFecha(DateTime fechaReci)
+            {
+
+                if (fechaReci <= DateTime.Now)
+                {
+                    ModelState.AddModelError(string.Empty, "La fecha no debe ser menor a hoy");
+                }
+
+
+            }
+
+
+
         }
     }
-}
+

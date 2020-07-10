@@ -58,19 +58,22 @@ namespace AlquilerCanchas.Database
             var Tipo11 = new TipoCancha()
             {
                 Descripcion = "11",
+                Id = 1
             };
             context.TipoCancha.Add(Tipo11);
 
             var Tipo8 = new TipoCancha()
             {
                 Descripcion = "8",
+                Id = 2
             };
             context.TipoCancha.Add(Tipo8);
 
             var estadoPendiente = new EstadoReserva()
             {
 
-                Descripcion = "Pendiente"
+                Descripcion = "Pendiente",
+                ClaseCss = "bg-warning",
             };
             context.EstadoReserva.Add(estadoPendiente);
 
@@ -78,13 +81,15 @@ namespace AlquilerCanchas.Database
             var estadoAceptado = new EstadoReserva()
             {
 
-                Descripcion = "Aceptado"
+                Descripcion = "Aceptado",
+                ClaseCss = "bg-success"
             };
             context.EstadoReserva.Add(estadoAceptado);
             var estadoCancelado = new EstadoReserva()
             {
 
-                Descripcion = "Cancelado"
+                Descripcion = "Cancelado",
+                ClaseCss = "bg-danger"
             };
             context.EstadoReserva.Add(estadoCancelado);
 
@@ -115,8 +120,18 @@ namespace AlquilerCanchas.Database
                 ClubId = 1
 
             };
-            context.Cancha.Add(Cancha1); 
+            context.Cancha.Add(Cancha1);
+            var Cancha2 = new Cancha()
 
+            {
+
+                Nombre = "Brasil",
+                Precio = 1200,
+                TipoCanchaId = 2,
+                ClubId = 1
+
+            };
+            context.Cancha.Add(Cancha2);
 
             context.SaveChanges();
         }

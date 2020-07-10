@@ -119,12 +119,20 @@ namespace AlquilerCanchas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp([Bind("Id,Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono,Rol")] Usuario usuario, string password)
         {
+             //valido mail         
+            mailExistente(usuario.Email);
+
+            //valido fecha mayor de edad
+            validaMayorEdad(usuario.FechaDeNacimineto);
+
+
             if (!string.IsNullOrWhiteSpace(password))
             {
                 byte[] data = System.Text.Encoding.ASCII.GetBytes(password);
                 data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
 
                 usuario.Contrasenia = data;
+              
 
                 if (ModelState.IsValid)
                 {
@@ -141,6 +149,9 @@ namespace AlquilerCanchas.Controllers
 
             return View(usuario);
         }
+
+
+    
 
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit()
@@ -169,6 +180,14 @@ namespace AlquilerCanchas.Controllers
             {
                 return NotFound();
             }
+
+            //valido mail         
+            mailExistente(usuario.Email);
+
+            //valido fecha mayor de edad
+            validaMayorEdad(usuario.FechaDeNacimineto);
+
+
 
             if (!string.IsNullOrWhiteSpace(password))
             {
@@ -200,10 +219,36 @@ namespace AlquilerCanchas.Controllers
             }
             return View(usuario);
         }
-
+      
         private bool UsuarioExists(int id)
         {
             return _context.Usuario.Any(e => e.Id == id);
         }
+
+        private void validaMayorEdad( DateTime fechaRec)
+        {
+            //se valida la fecha de nacimiento menor a 18 
+
+            if (fechaRec > DateTime.Now.AddYears(-18))
+            {
+                ModelState.AddModelError(string.Empty, "Debe ser mayor de edad");
+            }
+        }
+
+
+        private void mailExistente(string nuevomail)
+        {
+            if (_context.Usuario.Any(x => Comparar(x.Email, nuevomail)))
+            {
+                ModelState.AddModelError(string.Empty, "mail no disponible");
+            }
+        }
+
+        private static bool Comparar(string a, string b) //comparamos los 2 mail el ingresado y si existe uno 
+        {
+            return a.Where(x => !char.IsWhiteSpace(x)).Select(char.ToUpperInvariant)
+                .SequenceEqual(b.Where(x => !char.IsWhiteSpace(x)).Select(char.ToUpperInvariant));
+        }
+
     }
 }

@@ -30,7 +30,7 @@ body {
     line-height: 1.5;
     color: #212529;
     text-align: left;
-    background-image: url('../../../../images/balon.jpg');
+    background-image: url('../../../images/balon.jpg');
 }
 
 [tabindex="-1"]:focus {
@@ -56,7 +56,6 @@ p {
 abbr[title],
 abbr[data-original-title] {
   text-decoration: underline;
-  text-decoration: underline dotted;
   cursor: help;
   border-bottom: 0;
   }

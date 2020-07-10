@@ -119,7 +119,14 @@ namespace AlquilerCanchas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp([Bind("Id,Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono,Rol")] Usuario usuario, string password)
         {
+
+             //valido mail         
             mailExistente(usuario.Email);
+
+            //valido fecha mayor de edad
+            validaMayorEdad(usuario.FechaDeNacimineto);
+
+
 
             if (!string.IsNullOrWhiteSpace(password))
             {
@@ -127,6 +134,7 @@ namespace AlquilerCanchas.Controllers
                 data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
 
                 usuario.Contrasenia = data;
+              
 
                 if (ModelState.IsValid)
                 {
@@ -175,6 +183,14 @@ namespace AlquilerCanchas.Controllers
                 return NotFound();
             }
 
+            //valido mail         
+            mailExistente(usuario.Email);
+
+            //valido fecha mayor de edad
+            validaMayorEdad(usuario.FechaDeNacimineto);
+
+
+
             if (!string.IsNullOrWhiteSpace(password))
             {
                 byte[] data = System.Text.Encoding.ASCII.GetBytes(password);
@@ -210,6 +226,19 @@ namespace AlquilerCanchas.Controllers
         {
             return _context.Usuario.Any(e => e.Id == id);
         }
+
+
+        private void validaMayorEdad( DateTime fechaRec)
+        {
+            //se valida la fecha de nacimiento menor a 18 
+
+            if (fechaRec > DateTime.Now.AddYears(-18))
+            {
+                ModelState.AddModelError(string.Empty, "Debe ser mayor de edad");
+            }
+        }
+
+
 
         private void mailExistente(string nuevomail)
         {

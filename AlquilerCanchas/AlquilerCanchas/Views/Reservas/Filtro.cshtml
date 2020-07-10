@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Filtro";
+}
+
+@model IEnumerable<Reserva>
+
+<partial name="~/Views/Juegos/_FiltroJuegos.cshtml" />
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Consola</th>
+                <th>Géneros</th>
+                <th>Categoría</th>
+                <th>Año lanzamiento</th>
+                <th>Precio</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Reserva reserva in Model)
+            {
+            <tr>
+                <td>
+                    @reserva.Cancha
+                </td>
+                <td>
+                    @reserva.Estado
+                </td>
+               
+
+                <td>
+                    @reserva.Turno
+                </td>
+                <td>
+                    <a class="btn btn-link" href="#">
+                        Comprar >>
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -69,8 +69,8 @@ namespace AlquilerCanchas.Controllers
         {
 
 
-            
-            
+
+
             CanchaReservada(reserva);
             ValidaFecha(reserva.FechaReserva);
 
@@ -80,27 +80,27 @@ namespace AlquilerCanchas.Controllers
 
             {
 
-               
+
 
                 reserva.EstadoId = 1;
-                reserva.Monto = 10;         
-                   
+                reserva.Monto = 10;
 
-                    reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
+
+                reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
                 _context.Add(reserva);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(ListadoReserva));
-                }
-                ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
-                ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
-                ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
-                ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
-                
-                      return View(reserva);
-                    
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ListadoReserva));
+            }
+            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
+            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
+            ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username", reserva.UsuarioId);
 
-         //       return RedirectToAction(nameof(ListadoReserva));
-           
+            return View(reserva);
+
+
+            //       return RedirectToAction(nameof(ListadoReserva));
+
         }
 
         // GET: Reservas/Edit/5
@@ -122,7 +122,7 @@ namespace AlquilerCanchas.Controllers
             ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Dni", reserva.UsuarioId);
             return View(reserva);
 
-            
+
         }
 
         // POST: Reservas/Edit/5
@@ -199,7 +199,7 @@ namespace AlquilerCanchas.Controllers
 
 
         [HttpGet]
-        
+
         public IActionResult ListadoReserva()
         {
             int UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -246,19 +246,18 @@ namespace AlquilerCanchas.Controllers
             }
 
         }
-            private void ValidaFecha(DateTime fechaReci)
+        private void ValidaFecha(DateTime fechaReci)
+        {
+
+            if (fechaReci <= DateTime.Now)
             {
-
-                if (fechaReci <= DateTime.Now)
-                {
-                    ModelState.AddModelError(string.Empty, "La fecha no debe ser menor a hoy");
-                }
-
-
+                ModelState.AddModelError(string.Empty, "La fecha no debe ser menor a hoy");
             }
 
 
-
         }
-    }
 
+
+
+    }
+}

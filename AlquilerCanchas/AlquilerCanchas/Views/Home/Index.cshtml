@@ -53,122 +53,123 @@
             <button onclick="document.getElementById('Pasos').style.display='block'" class="btn btn-block btn-lg btn-primary">Pasos de registro </button>
 
         </div>
-            <div class="modal" id="Pasos" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Instrucciones</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        <div class="modal" id="Pasos" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Instrucciones</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Debes ser mayor de 18+ Haz click en el boton registrar</p><br>
+                        <p>Juntá a tus amigos</p><br>
+                        <p>Vení a jugar </p><br>
+                        <h5><strong>VAMOOOOS!</strong></h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary nav-link text-light" asp-controller="Usuarios" asp-action="Signup">Registrate</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('Pasos').style.display='none'">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section style="margin-top:60px">
+            <div>
+                <div class="row">
+                    <div class="col-lg-4 bg-dark">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <div class="features-icons-icon d-flex">
+
+                            </div>
+                            <h3 style="color:aliceblue">Juntá con tus amigos</h3>
+                            <p class="lead mb-0" style="color:aliceblue">No esperes, armá la partida K-po!</p>
                         </div>
-                        <div class="modal-body">
-                            <p>Debes ser mayor de 18+ Haz click en el boton registrar</p><br>
-                            <p>Juntá a tus amigos</p><br>
-                            <p>Vení a jugar </p><br>
-                            <h5><strong>VAMOOOOS!</strong></h5>
+                    </div>
+                    <div class="col-lg-4 bg-light">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            <div class="features-icons-icon d-flex">
+                                <i class="icon-layers m-auto text-primary"></i>
+                            </div>
+                            <h3>Tenés las mejores canchas </h3>
+                            <p class="lead mb-0">las seleccionamos para vos !</p>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary nav-link text-light" asp-controller="Usuarios" asp-action="Signup">Registrate</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('Pasos').style.display='none'">Cerrar</button>
+                    </div>
+                    <div class="col-lg-4 bg-dark">
+                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                            <div class="features-icons-icon d-flex">
+                                <i class="icon-check m-auto text-primary"></i>
+                            </div>
+                            <h3 style="color:aliceblue">Facil de usar</h3>
+                            <p class="lead mb-0" style="color:aliceblue">Crea un usuario y reserva tu cancha!</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
 
-            <section style="margin-top:60px">
-                <div>
-                    <div class="row">
-                        <div class="col-lg-4 bg-dark">
-                            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                                <div class="features-icons-icon d-flex">
-                                    
-                                </div>
-                                <h3 style="color:aliceblue">Juntá con tus amigos</h3>
-                                <p class="lead mb-0"  style="color:aliceblue">No esperes, armá la partida K-po!</p>
-                            </div>
+        <section>
+            <div>
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 ">
+                        <h2>Las mejores Canchas de nuestros club socios</h2>
+                        <p>Tendras un servicio de calidad </p>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <h2>Somos lideres ! </h2>
+                        <p>Fuimos los PRIMEROS ! en poder brindarte un servicio que integre tu rutina con tus actividades favoritas, simplificando tu dia a dia</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 ">
+                        <h2>Somos Responsables</h2>
+                        <p>Tendras al mejor equipo de soporte a tu disposicion </p>
+                    </div>
+                    <div class="col-lg-6 order-lg-1 ">
+                        <h2>Sos importante para nosotros</h2>
+                        <p>Creemos en vos y tu aporte a la comunidad y para eso debes hacer deporte y poder ser proactivo con tus actividades</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonios -->
+        <section class="text-center bg-dark">
+            <div class="container">
+                <h2 class="text-white">Nuestros Clientes </h2>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class=" mx-auto mb-5 mb-lg-0">
+                            <img class="img-fluid rounded-circle" src="~/images/macri.jpg" alt="">
+                            <h5 class="text-white">Mauricio Macri</h5>
+                            <p class="font-weight-light  text-white">"Gracias a esto juego mas seguido"</p>
                         </div>
-                        <div class="col-lg-4 bg-light">
-                            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                                <div class="features-icons-icon d-flex">
-                                    <i class="icon-layers m-auto text-primary"></i>
-                                </div>
-                                <h3>Tenés las mejores canchas </h3>
-                                <p class="lead mb-0">las seleccionamos para vos !</p>
-                            </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class=" mx-auto mb-5 mb-lg-0">
+                            <img class="img-fluid rounded-circle mb-3" src="~/images/alberto.jpg" alt="">
+                            <h5 class="text-white">Alberto Fernandez</h5>
+                            <p class="font-weight-light text-white">"Soy malo pero la remo con los pibes "</p>
                         </div>
-                        <div class="col-lg-4 bg-dark">
-                            <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                                <div class="features-icons-icon d-flex">
-                                    <i class="icon-check m-auto text-primary"></i>
-                                </div>
-                                <h3  style="color:aliceblue">Facil de usar</h3>
-                                <p class="lead mb-0"  style="color:aliceblue">Crea un usuario y reserva tu cancha!</p>
-                            </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class=" mx-auto mb-5 mb-lg-0">
+                            <img class="img-fluid rounded-circle mb-3" src="~/images/tevez.jpg" alt="">
+                            <h5 class="text-white">Carlitos Tevez </h5>
+                            <p class="font-weight-light text-white mb-0">"Mas facil que organizar en lugano papá"</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
 
-            <section>
-                <div>
-                    <div class="row">
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 ">
-                            <h2>Las mejores Canchas de nuestros club socios</h2>
-                            <p>Tendras un servicio de calidad </p>
-                        </div>
-                        <div class="col-lg-6 ">
-                            <h2>Somos lideres ! </h2>
-                            <p>Fuimos los PRIMEROS ! en poder brindarte un servicio que integre tu rutina con tus actividades favoritas, simplificando tu dia a dia</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 ">
-                            <h2>Somos Responsables</h2>
-                            <p>Tendras al mejor equipo de soporte a tu disposicion </p>
-                        </div>
-                        <div class="col-lg-6 order-lg-1 ">
-                            <h2>Sos importante para nosotros</h2>
-                            <p>Creemos en vos y tu aporte a la comunidad y para eso debes hacer deporte y poder ser proactivo con tus actividades</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- Testimonios -->
-            <section class="text-center bg-dark">
-                <div class="container">
-                    <h2 class="text-white">Nuestros Clientes </h2>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class=" mx-auto mb-5 mb-lg-0">
-                                <img class="img-fluid rounded-circle" src="~/images/macri.jpg" alt="">
-                                <h5 class="text-white">Mauricio Macri</h5>
-                                <p class="font-weight-light  text-white">"Gracias a esto juego mas seguido"</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class=" mx-auto mb-5 mb-lg-0">
-                                <img class="img-fluid rounded-circle mb-3" src="~/images/alberto.jpg" alt="">
-                                <h5 class="text-white">Alberto Fernandez</h5>
-                                <p class="font-weight-light text-white">"Soy malo pero la remo con los pibes "</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class=" mx-auto mb-5 mb-lg-0">
-                                <img class="img-fluid rounded-circle mb-3" src="~/images/tevez.jpg" alt="">
-                                <h5 class="text-white">Carlitos Tevez </h5>
-                                <p class="font-weight-light text-white mb-0">"Mas facil que organizar en lugano papá"</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-        </div>
+    </div>
 

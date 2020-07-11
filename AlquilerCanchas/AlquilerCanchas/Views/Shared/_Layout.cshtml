@@ -10,11 +10,8 @@
     <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
 
 </head>
-<body background-color: black >
-    
-
+<body>
     <header>
-
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-light box-shadow mb-3">
             <div class="container border-danger">
                 <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Alquila-T</a>
@@ -38,10 +35,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="Create">Reservar</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="Index">Ver Reservas realizadas</a>
-                                </li>
-
 
 
                             }
@@ -51,7 +44,7 @@
                                     <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="Create">Reservar</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="TipoCancha" asp-action="SeleccionarFiltro">Reservar</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Reservas" asp-action="Index">Ver Reservas</a>
@@ -60,13 +53,17 @@
                                     <a class="nav-link text-light" asp-area="" asp-controller="Canchas" asp-action="Create">Crear Canchas</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Turno" asp-action="Create">Agregar Turnos</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Turnos" asp-action="Create">Agregar Turnos</a>
                                 </li>
 
-
+                               
                             }
 
+
+
+
                         }
+
 
                     </ul>
                 </div>
@@ -75,10 +72,12 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle dropright" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
 
-                                    <li class="nav-item"><a asp-controller="Usuarios" asp-action="Edit">Editar</a></li>
+
+                                    <li class="nav-item"><a asp-controller="Usuarios" asp-action="EditMe">Editar</a></li>
+                                    <li class="nav-item"><a asp-controller="Usuarios" asp-action="Details">Perfil</a></li>
                                     <li class="nav-item">
                                         <!-- Acá utilizamos un a fuera del formulario para hacer submit del mismo. -->
                                         <a href="#" onclick="document.getElementById('logoutForm').submit();">Logout</a>
@@ -86,7 +85,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                         }
                         else
                         {
@@ -106,7 +104,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Alquiler de Canchas  de futbol- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+            &copy; 2020 - Alquiler de Canchas - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

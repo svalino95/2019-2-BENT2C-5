@@ -1,7 +1,7 @@
 ﻿@model AlquilerCanchas.Models.Usuario
 
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar datos Usuario";
 }
 
 <h1>Editar mis datos de usuario</h1>
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="Usuarios"  asp-action="EditMe">
+        <form  asp-action="EditMe" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -18,7 +18,7 @@
                 <input asp-for="Username" class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
-            
+
 
             <div class="form-group">
                 <label asp-for="Dni" class="control-label"></label>
@@ -36,7 +36,7 @@
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Editar" class="btn btn-primary" />
+                <input type="submit" value="editar" class="btn btn-primary" />
             </div>
 
         </form>

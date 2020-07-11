@@ -44,7 +44,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
+        <tr class="@item.Estado.ClaseCss">
 
 
             <td>
@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.Cancha.Nombre)
             </td>
             <td>
-            @Html.DisplayFor(modelItem => item.Turno.Descripcion)
+                @Html.DisplayFor(modelItem => item.Turno.Descripcion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cancha.TipoCancha.Descripcion)

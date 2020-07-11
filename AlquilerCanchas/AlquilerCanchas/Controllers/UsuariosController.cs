@@ -22,6 +22,25 @@ namespace AlquilerCanchas.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Usuario.ToListAsync());
+        }
+
+        //GET:Usuarios/Details/5
+        public async Task<IActionResult> Details()
+        {
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+
+            var usuario = await _context.Usuario
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
         public IActionResult Login(string returnUrl)
         {
             TempData["returnUrl"] = returnUrl;
@@ -29,7 +48,7 @@ namespace AlquilerCanchas.Controllers
         }
 
         [HttpPost]
-      
+
         public async Task<IActionResult> Login([Bind("Id,Email,Contrasenia")] string email, string password)
         {
             string returnUrl = TempData["returnUrl"] as string;
@@ -44,11 +63,11 @@ namespace AlquilerCanchas.Controllers
 
                 data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
 
-    
+
                 //Falta validar que el email exista, sino lanza error
-               
+
                 //if (usuario.Contrasenia.SequenceEqual(data))
-                if(usuario != null && usuario.Contrasenia.SequenceEqual(data))
+                if (usuario != null && usuario.Contrasenia.SequenceEqual(data))
                 {
 
                     //creacion de identidad del usuario ingresado
@@ -67,9 +86,9 @@ namespace AlquilerCanchas.Controllers
                     // Guardo la fecha de último acceso que es ahora.
 
                     usuario.FechaUltimoAcceso = DateTime.Now;
-                     _context.SaveChanges();
+                    _context.SaveChanges();
 
-                    
+
 
                     if (!string.IsNullOrWhiteSpace(returnUrl))
                     {
@@ -85,7 +104,7 @@ namespace AlquilerCanchas.Controllers
             //info incorrecta
             ViewBag.Error = "Usuario o contraseña incorrectos";
             ViewBag.Email = email;
-            
+
 
             return View();
         }
@@ -120,7 +139,7 @@ namespace AlquilerCanchas.Controllers
         public async Task<IActionResult> SignUp([Bind("Id,Username,Contrasenia,Email,Dni,FechaDeNacimineto,Telefono,Rol")] Usuario usuario, string password)
         {
 
-             //valido mail         
+            //valido mail         
             mailExistente(usuario.Email);
 
             //valido fecha mayor de edad
@@ -134,7 +153,7 @@ namespace AlquilerCanchas.Controllers
                 data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
 
                 usuario.Contrasenia = data;
-              
+
 
                 if (ModelState.IsValid)
                 {
@@ -153,7 +172,7 @@ namespace AlquilerCanchas.Controllers
         }
 
 
-    
+
 
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit()
@@ -221,14 +240,104 @@ namespace AlquilerCanchas.Controllers
             }
             return View(usuario);
         }
-      
+
+
+
+        //POST EDIT ! 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, [Bind("Dni,FechaDeNacimiento,Id,Nombre,Apellido")] Usuario usuario)
+        {
+            return EditarCliente(id, usuario);
+        }
+
+
+
+        // GET: Usuarios/Edit/5
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = _context.Usuario.Find(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return View(usuario);
+        }
+
+
+
+        //GET  EDITME 
+        [HttpGet]
+        public IActionResult EditMe()
+        {
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+            var usuario = _context.Usuario.Find(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return View(usuario);
+        }
+
+        // POST: EditMe
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //editar cliente NO ADMIN primer test
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditMe([Bind("Username,Contrasenia,Dni,Id,FechaDeNacimineto,Telefono,Rol")] Usuario usuario)
+        {
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+            return EditarCliente(id, usuario);
+
+
+        }
+
+        // GET: Clientes/Delete/5
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _context.Usuario
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        // POST: Clientes/Delete/5
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var usuario = await _context.Usuario.FindAsync(id);
+            _context.Usuario.Remove(usuario);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool UsuarioExists(int id)
         {
             return _context.Usuario.Any(e => e.Id == id);
         }
 
 
-        private void validaMayorEdad( DateTime fechaRec)
+        private void validaMayorEdad(DateTime fechaRec)
         {
             //se valida la fecha de nacimiento menor a 18 
 
@@ -254,5 +363,60 @@ namespace AlquilerCanchas.Controllers
                 .SequenceEqual(b.Where(x => !char.IsWhiteSpace(x)).Select(char.ToUpperInvariant));
         }
 
+        private IActionResult EditarCliente(int id, Usuario usuario)
+        {
+            if (usuario.Id != id)
+            {
+                return NotFound();
+            }
+
+            // No aplicamos las validaciones de mail ya que no queremos que sea editable.
+            //Remove del ModelState
+            //Problemas con convertir contraseña por eso omito por ahora
+            ModelState.Remove(nameof(Usuario.Email));
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //omitimos el mail ! 
+                    Usuario userDb = _context.Usuario.Find(usuario.Id);
+                    userDb.Dni = usuario.Dni;
+                    userDb.FechaDeNacimineto = usuario.FechaDeNacimineto;
+                    userDb.Username = usuario.Username;
+                    userDb.Telefono = usuario.Telefono;
+                    userDb.FechaUltimoAcceso = DateTime.Now;
+
+
+                    _context.Update(userDb);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UsuarioExists(usuario.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                if (User.IsInRole(nameof(Rol.Administrador)))
+                {
+                    return RedirectToAction(nameof(Details));
+                }
+
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            return View(usuario);
+
+
+        }
     }
+
+
 }
+ 

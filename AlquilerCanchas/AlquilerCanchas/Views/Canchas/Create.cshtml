@@ -1,12 +1,12 @@
 ﻿@model AlquilerCanchas.Models.Cancha
 
 @{
-    ViewData["Title"] = "Crear canchas";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Crear nueva cancha</h1>
 
-<h4>Cancha</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -38,7 +38,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Listado de Canchas</a>    |
+    <a asp-controller="Home" asp-action="Index">Volver al inicio</a>
 </div>
 
 @section Scripts {

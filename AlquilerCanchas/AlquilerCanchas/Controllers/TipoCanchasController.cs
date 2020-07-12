@@ -148,28 +148,17 @@ namespace AlquilerCanchas.Controllers
         [HttpGet]
         public IActionResult SeleccionarFiltro()
         {
-            ViewBag.SelectTipoCancha = new SelectList(_context.TipoCancha, "Id", "Descripcion");
+            ViewBag.SelectCanchas = new SelectList(_context.Cancha, "Id", "Descripcion");
 
             return View();
         }
 
 
-        public IActionResult FiltroTipo(string descripcion)
-        {
-            var canchas =
-                _context
-                .TipoCancha
-                .Include(x => x.Descripcion)
-               
-                .Where(x => x.Descripcion == descripcion)
-                .ToList();
+        
 
-
-
-            return View("TipoCanchaFiltrada", canchas);
-        }
 
        
+        
 
         private bool TipoCanchaExists(int id)
         {

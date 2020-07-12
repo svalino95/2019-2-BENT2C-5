@@ -158,6 +158,52 @@ namespace AlquilerCanchas.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public IActionResult Buscar(int? tipoId, string nombre, int? clubId, int? turnoId )
+        {
+            var canchas = _context
+                .Cancha
+                .Include(x => x.TipoCancha)
+                .Include(x => x.TurnosCancha).ThenInclude(x => x.Turno)
+                .Include(x => x.Club)
+                .Where(x => x.TipoCancha.Descripcion == nombre)
+                /*.Where(x => (string.IsNullOrWhiteSpace(nombre) || x.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase))
+                            && (!tipoId.HasValue || x.TipoCanchaId == tipoId.Value)
+                            && (!clubId.HasValue || x.ClubId == clubId.Value)
+                            && (!turnoId.HasValue || x.TurnosCancha.Any(turno => turno.TurnoId == turnoId.Value)))*/
+                .ToList();
+
+            var tipos = _context.TipoCancha.Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.Descripcion,
+                Selected = x.Id == tipoId
+            }).ToList();
+            tipos.Insert(0, new SelectListItem() { Value = string.Empty, Text = "Sin filtro de tipos" });
+
+            var clubs = _context.Club.Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.Nombre,
+                Selected = x.Id == clubId //PUEDE QUE FALTEN LOS OTROS CAMPOS DE CLUB Y PINCHE DIRECCION Y CANCHAS
+            }).ToList();
+            clubs.Insert(0, new SelectListItem() { Value = string.Empty, Text = "Sin filtro de clubs" });
+
+            var turnos = _context.TurnoCancha.Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.TurnoId.ToString(),
+                Selected = x.Id == turnoId
+            }).ToList();
+            turnos.Insert(0, new SelectListItem() { Value = string.Empty, Text = "Sin filtro de turno" });
+
+            
+            ViewBag.TipoCanchas = tipos;
+            ViewBag.Clubs = clubs;
+            ViewBag.Turnos = turnos;
+
+            return View(canchas);
+        }
         private bool CanchaExists(int id)
         {
             return _context.Cancha.Any(e => e.Id == id);

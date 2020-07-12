@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Cancha>
+
+<partial name="~/Views/Canchas/FiltroCanchas.cshtml" />
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo De Cancha</th>
+                <th>Club</th>
+                <th>Precio</th>
+                
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Cancha cancha in Model)
+            {
+            <tr>
+                <td>
+                    @cancha.Nombre
+                </td>
+                <td>
+                    @cancha.TipoCancha.Descripcion
+                </td>
+               
+                <td>
+                    @cancha.Club.Nombre
+                </td>
+                <td>
+                    
+                   $ @cancha.Precio
+                </td>
+
+           
+                <td>
+                    <a class="btn btn-link" href="#">
+                        Reservar >>
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

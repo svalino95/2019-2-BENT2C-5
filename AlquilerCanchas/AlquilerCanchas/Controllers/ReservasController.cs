@@ -200,6 +200,7 @@ namespace AlquilerCanchas.Controllers
 
         [HttpGet]
 
+        //listas las reservas del usuario por ID de logg actual
         public IActionResult ListadoReserva()
         {
             int UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);

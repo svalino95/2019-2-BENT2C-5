@@ -1,0 +1,23 @@
+﻿
+
+<section class="search-section">
+    <div class="container">
+        <form asp-action="Buscar" asp-controller="Canchas" method="get" novalidate="novalidate">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                            <input type="text" class="form-control search-input" name="Nombre" placeholder="Tipo Cancha" value="@ViewBag.Nombre">
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                            <button type="submit" class="btn btn-info search-button">
+                                Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

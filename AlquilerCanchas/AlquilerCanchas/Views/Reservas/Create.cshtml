@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            
             <div class="form-group">
                 <label asp-for="Cancha.TipoCancha.Descripcion" class="control-label">@Html.DisplayNameFor(model => model.Cancha.TipoCancha)</label>
                 <select asp-for="Cancha.TipoCancha.Descripcion" class="form-control" asp-items="ViewBag.Cancha"></select>

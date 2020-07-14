@@ -50,14 +50,33 @@ namespace AlquilerCanchas.Controllers
         }
 
         // GET: Reservas/Create
-        public IActionResult Create()
-        {
-            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre");
-            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion");
-            ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion");
-            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Username");
-            return View();
+        [HttpGet]
 
+        public IActionResult Create(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var cancha = _context
+                .Cancha
+                .Include(x => x.TipoCancha).ThenInclude(x => x.Canchas)
+                .FirstOrDefault(x => x.Id == id);
+
+
+
+            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", cancha.Id);
+            ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", cancha.TurnosCancha);
+
+            Reserva reserva = new Reserva()
+            {
+                CanchaId = cancha.Id,
+                Cancha = cancha
+
+            };
+
+            return View(reserva);
         }
 
         // POST: Reservas/Create
@@ -65,7 +84,7 @@ namespace AlquilerCanchas.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CanchaId,EstadoId,UsuarioId,FechaReserva,Comentarios,TurnoId")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("CanchaId,UsuarioId,FechaReserva,Comentarios,TurnoId")] Reserva reserva)
         {
 
 
@@ -74,7 +93,10 @@ namespace AlquilerCanchas.Controllers
             CanchaReservada(reserva);
             ValidaFecha(reserva.FechaReserva);
 
-
+            /*  var tipoCancha = _context
+                  .TipoCancha
+                  .Include(x => x.Canchas).ThenInclude(x => x.TipoCancha)
+                  .FirstOrDefault(x => x.Id == reserva.Cancha.TipoCancha.Id);*/
 
             if (ModelState.IsValid)
 
@@ -83,8 +105,14 @@ namespace AlquilerCanchas.Controllers
 
 
                 reserva.EstadoId = 1;
-                reserva.Monto = 10;
 
+                var cancha = await _context.Cancha
+                .Include(c => c.Club)
+                .Include(c => c.TipoCancha)
+                .FirstOrDefaultAsync(m => m.Id == reserva.CanchaId);
+
+
+                reserva.Monto = cancha.Precio;
 
                 reserva.UsuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); //Asigno la reserva al usuario logueado.
                 _context.Add(reserva);
@@ -102,6 +130,7 @@ namespace AlquilerCanchas.Controllers
             //       return RedirectToAction(nameof(ListadoReserva));
 
         }
+
 
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)

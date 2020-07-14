@@ -24,20 +24,19 @@
                 <td>
                     @cancha.TipoCancha.Descripcion
                 </td>
-               
+
                 <td>
                     @cancha.Club.Nombre
                 </td>
                 <td>
-                    
-                   $ @cancha.Precio
+
+                    $ @cancha.Precio
                 </td>
 
-           
+
                 <td>
-                    <a class="btn btn-link" href="#">
-                        Reservar >>
-                    </a>
+                    <a class="btn btn-outline-secondary custom-select-sm " asp-controller="Reservas"
+                       asp-action="create" asp-route-id="@cancha.Id">Reservar</a>
                 </td>
             </tr>
             }

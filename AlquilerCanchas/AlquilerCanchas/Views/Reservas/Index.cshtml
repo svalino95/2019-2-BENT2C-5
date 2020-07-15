@@ -7,7 +7,7 @@
 <h1>Listado de reservas </h1>
 
 <p>
-    <a asp-action="Create">Crear nueva reserva</a>
+    <a asp-controller="Canchas" asp-action="Buscar">Crear nueva reserva</a>
 </p>
 <table class="table">
     <thead>
@@ -15,23 +15,25 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cancha)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Usuario)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaReserva)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Monto)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Comentarios)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Turno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Monto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
             </th>
             <th></th>
         </tr>
@@ -42,18 +44,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Cancha.Nombre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado.Descripcion)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Usuario.Username)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaReserva)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Monto)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Comentarios)
             </td>
@@ -61,9 +59,15 @@
                 @Html.DisplayFor(modelItem => item.Turno.Descripcion)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Monto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Descripcion)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Cambiar Estado</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+
             </td>
         </tr>
 }

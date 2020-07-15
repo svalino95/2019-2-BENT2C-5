@@ -353,7 +353,7 @@ namespace AlquilerCanchas.Controllers
         {
             if (_context.Usuario.Any(x => Comparar(x.Email, nuevomail)))
             {
-                ModelState.AddModelError(string.Empty, "mail no disponible");
+                ModelState.AddModelError(string.Empty, "Mail no disponible");
             }
         }
 
@@ -362,7 +362,7 @@ namespace AlquilerCanchas.Controllers
             return a.Where(x => !char.IsWhiteSpace(x)).Select(char.ToUpperInvariant)
                 .SequenceEqual(b.Where(x => !char.IsWhiteSpace(x)).Select(char.ToUpperInvariant));
         }
-
+            
         private IActionResult EditarCliente(int id, Usuario usuario)
         {
             if (usuario.Id != id)

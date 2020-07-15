@@ -24,13 +24,14 @@
                 Cancha
             </th>
             <th>
-                Horario
-            </th>
-            <th>
                 Tipo
             </th>
             <th>
-                A Pagar
+                Horario
+            </th>
+
+            <th>
+                Total
             </th>
             <th>
                 Estado
@@ -57,18 +58,34 @@
                 @Html.DisplayFor(modelItem => item.Cancha.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Turno.Descripcion)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Cancha.TipoCancha.Descripcion)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Turno.Descripcion)
+            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Monto)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado.Descripcion)
             </td>
+
+            @if (item.EstadoId == 2)
+
+            {
+
+        <td>
+            <a ></a>
+        </td> }
+                        else
+                        {
+        <td>
+            <a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
+        </td>}
+
         </tr>
         }
+
     </tbody>
 </table>

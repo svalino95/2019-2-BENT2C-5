@@ -1,7 +1,7 @@
 ﻿@model AlquilerCanchas.Models.Reserva
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Cambiar Estado";
 }
 
 <h1>Editar</h1>
@@ -15,12 +15,12 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                  <div class="form-group">
-                <label asp-for="Usuario" class="control-label"></label>
-                <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
-                <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                <label  asp-for="Usuario" class="control-label"></label>
+                <select type="hidden" asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
+                <span type="hidden"  asp-validation-for="UsuarioId" class="text-danger"></span>
             </div>
                 <label asp-for="Cancha" class="control-label"></label>
-                <select asp-for="CanchaId" class="form-control" asp-items="ViewBag.CanchaId"></select>
+                <select type="hidden" asp-for="CanchaId" class="form-control" asp-items="ViewBag.CanchaId"></select>
                 <span asp-validation-for="CanchaId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,17 +31,17 @@
            
             <div class="form-group">
                 <label asp-for="FechaReserva" class="control-label"></label>
-                <input asp-for="FechaReserva" class="form-control" />
+                <input type="hidden" asp-for="FechaReserva" class="form-control" />
                 <span asp-validation-for="FechaReserva" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Monto" class="control-label"></label>
-                <input asp-for="Monto" class="form-control" />
+                <input type="hidden" asp-for="Monto" class="form-control" />
                 <span asp-validation-for="Monto" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TurnoId" class="control-label"></label>
-                <select asp-for="TurnoId" class="form-control" asp-items="ViewBag.TurnoId"></select>
+                <select type="hidden" asp-for="TurnoId" class="form-control" asp-items="ViewBag.TurnoId"></select>
                 <span asp-validation-for="TurnoId" class="text-danger"></span>
             </div>
             <div class="form-group">

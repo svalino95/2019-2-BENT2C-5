@@ -1,0 +1,58 @@
+﻿@model AlquilerCanchas.Models.Reserva
+
+@{ ViewData["Title"] = "Cancelar"; }
+
+<h1></h1>
+
+<h4>¿ Desea eliminar la reserva N°: @Model.Id ?</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Cancelar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <div class="form-group">
+
+                    <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId" hidden></select>
+                    <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                </div>
+                @Model.Cancha
+                <select asp-for="CanchaId" class="form-control" asp-items="ViewBag.CanchaId" hidden></select>
+                <span asp-validation-for="CanchaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <select asp-for="EstadoId" class="form-control" asp-items="ViewBag.EstadoId"hidden></select>
+                <span asp-validation-for="EstadoId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FechaReserva" class="control-label"></label>
+                <input asp-for="FechaReserva" class="form-control" readonly />
+                <span asp-validation-for="FechaReserva" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               
+                <input asp-for="Monto" class="form-control" hidden />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <select asp-for="TurnoId" class="form-control" asp-items="ViewBag.TurnoId" hidden> </select>
+                <span asp-validation-for="TurnoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confimar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListadoReserva">Volver</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AlquilerCanchas.Database;
 using AlquilerCanchas.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AlquilerCanchas.Controllers
 {
@@ -19,6 +20,10 @@ namespace AlquilerCanchas.Controllers
         {
             _context = context;
         }
+
+
+        
+  
 
         // GET: Reservas
         public async Task<IActionResult> Index()
@@ -106,11 +111,12 @@ namespace AlquilerCanchas.Controllers
 
                 reserva.EstadoId = 1;
 
-                var cancha = await _context.Cancha
-                .Include(c => c.Club)
+                // Buscamos en el contexto de Cancha el precio
+                var cancha = await _context.Cancha             
                 .Include(c => c.TipoCancha)
                 .FirstOrDefaultAsync(m => m.Id == reserva.CanchaId);
 
+                //se asigna el precio a la Reserva
 
                 reserva.Monto = cancha.Precio;
 
@@ -131,6 +137,78 @@ namespace AlquilerCanchas.Controllers
 
         }
 
+        // GET: Reservas/Cancelar
+        [HttpGet]
+
+        public IActionResult Cancelar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Reserva reserva =  _context.Reserva.Find(id);
+
+            reserva.EstadoId = 3;
+
+            if (reserva == null)
+            {
+                return NotFound();
+            }
+
+
+            ViewData["CanchaId"] = new SelectList(_context.Cancha, "Id", "Nombre", reserva.CanchaId);
+            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
+            ViewData["TurnoId"] = new SelectList(_context.Turno, "Id", "Descripcion", reserva.TurnoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Dni", reserva.UsuarioId);
+
+            return View(reserva);
+        }
+
+        // POST: Reservas/Cancelar
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancelar(int id , Reserva reserva)
+        {
+
+
+
+            if (id != reserva.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(reserva);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ReservaExists(reserva.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(ListadoReserva));
+            }
+          
+            ViewData["EstadoId"] = new SelectList(_context.EstadoReserva, "Id", "Descripcion", reserva.EstadoId);
+          
+          
+
+            return RedirectToAction(nameof(ListadoReserva));
+
+
+        }
 
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -241,7 +319,7 @@ namespace AlquilerCanchas.Controllers
                 .Include(r => r.Turno)
                 .Include(r => r.Usuario)
                 .Include(r => r.Cancha.TipoCancha)
-                 .Where(reserva => reserva.UsuarioId == UsuarioId)
+                 .Where(reserva => reserva.UsuarioId == UsuarioId && reserva.EstadoId != 3)
                 .ToList();
 
             return View(reservas);

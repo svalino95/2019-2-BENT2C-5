@@ -19,43 +19,36 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Username" class="control-label text-white"></label>
-                    <input asp-for="Username" class="form-control" />
-                    <span asp-validation-for="Username" class="text-danger fa-user-alt"></span>
-
+                    <input asp-for="Username" class="form-control"required />
+                    <span asp-validation-for="Username" class="text-danger "></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Contrasenia" class="control-label text-white"></label>
-                    <input name="password" class="form-control" type="password" />
-                    <span asp-validation-for="Contrasenia" class="text-danger fa-key"></span>
+                    <input name="password" class="form-control" type="password" required />
+                    <span asp-validation-for="Contrasenia" class="text-danger "></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email" class="control-label text-white"></label>
-                    <input asp-for="Email" class="form-control fa-envelope" />
-                    <span asp-validation-for="Email" class="text-danger fa-envelope"></span>
+                    <input asp-for="Email" class="form-control fa-envelope" type="email" required />
+                    <span asp-validation-for="Email" class="text-danger "></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Dni" class="control-label text-white"></label>
                     <input asp-for="Dni" class="form-control" />
-                    <span asp-validation-for="Dni" class="text-danger fa-passport"></span>
+                    <span asp-validation-for="Dni" class="text-danger "></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="FechaDeNacimineto" class="control-label text-white"></label>
-                    <input asp-for="FechaDeNacimineto" class="form-control" />
-                    <span asp-validation-for="FechaDeNacimineto" class="text-danger fa-calendar"></span>
+                    <label asp-for="FechaDeNacimineto" class="control-label text-white"> </label>
+                    <input asp-for="FechaDeNacimineto" class="form-control"required />
+                    <span asp-validation-for="FechaDeNacimineto" class="text-danger "></span>
                 </div>
                 <div class="form-group features-icons-icon">
                     <label asp-for="Telefono" class="control-label text-white"></label>
-                    <input asp-for="Telefono" class="form-control" />
+                    <input asp-for="Telefono" class="form-control"required />
                     <span asp-validation-for="Telefono" class="text-danger icon-call-end"></span>
-                    <i class="icon-call-end"></i>
+                    
                 </div>
-                <div>
-                    <label class="control-label text-white">
-                        <input type="checkbox" title="Acepto Terminos y Condiciones" />
-                        Acepto
-                        <a asp-controller="Home" asp-action="Privacy">terminos y condiciones</a>
-                    </label>
-                </div>
+           
                 <div class="form-group">
                     <input type="submit" value="Crear" class="btn btn-block btn-dark btn-primary" />
                 </div>

@@ -50,6 +50,7 @@ namespace AlquilerCanchas.Database
 
             var SocieF = new Club()
             {
+                Id = 1,
                 Nombre = "Sociedad de Fomento",
                 Direccion = "Chile 110"
             };

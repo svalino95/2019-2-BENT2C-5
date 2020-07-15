@@ -42,8 +42,9 @@ namespace AlquilerCanchas
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            // services.AddDbContext<CtaCteDbContext>(options => options.UseSqlServer("Server=TL-DEV-63\\SQLEXPRESS;Database=ctacte;Integrated Security=SSPI;"));
-            services.AddDbContext<AlquilerCanchasDbContext>(options => options.UseInMemoryDatabase("AlquilerCanchasDB"));
+            
+        //    services.AddDbContext<AlquilerCanchasDbContext>(options => options.UseInMemoryDatabase("AlquilerCanchasDB"));
+                    services.AddDbContext<AlquilerCanchasDbContext>(options => options.UseSqlite("Data Source=AlquilerCanchasDB"));
 
              }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,12 +61,10 @@ namespace AlquilerCanchas
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseAuthentication();
+
 
             app.UseEndpoints(endpoints =>
             {
